@@ -1,0 +1,74 @@
+# Count using CASE
+
+## Problem Summary
+
+The `student` table contains the following columns:
+
+- `St_id`
+- `St_name`
+- `Marks`
+- `Department`
+
+Write a SQL query to count the number of students in each department who have scored **more than 80 marks**.
+
+The output column should be aliased as **Dept_HighScore_Count**.
+
+---
+
+## Solution
+
+```sql
+SELECT
+    Department,
+    COUNT(CASE
+            WHEN Marks > 80 THEN 1
+            ELSE NULL
+         END) AS Dept_HighScore_Count
+FROM student
+GROUP BY Department;
+```
+
+---
+
+## Explanation
+
+- `CASE` checks whether a student's marks are greater than **80**.
+- If the condition is true, it returns `1`.
+- Otherwise, it returns `NULL`.
+- `COUNT()` counts only non-NULL values.
+- `GROUP BY Department` groups the students department-wise.
+
+---
+
+## SQL Concepts Used
+
+- `COUNT()`
+- `CASE`
+- `WHEN`
+- `GROUP BY`
+- Column Alias (`AS`)
+
+---
+
+## How COUNT(CASE...) Works
+
+| Marks | CASE Result | Counted? |
+|--------|-------------|-----------|
+| 92 | 1 | ✅ Yes |
+| 85 | 1 | ✅ Yes |
+| 80 | NULL | ❌ No |
+| 75 | NULL | ❌ No |
+
+Since `COUNT()` ignores `NULL`, only students with marks **greater than 80** are counted.
+
+---
+
+## Time Complexity
+
+- **O(n)**, where `n` is the number of rows in the `student` table.
+
+---
+
+## Author
+
+**Aayush Kumar**
